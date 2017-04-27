@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <title>Rainbow Text</title>
+    <style>
+      .red {color:red;}
+      .orange {color:orange;}
+      .yellow {color:yellow;}
+      .green {color:green;}
+      .blue {color:blue;}
+      .purple {color:purple;}
+    </style>
+  </head>
+  <body>
+    <p id="rainbow" style="white-space: pre-wrap;"></p>
+    <textarea id="in" onchange="update();"></textarea>
+    <script>
+      var update = function() {
+        var outstr = "";
+        var instr = document.getElementById("in").value;
+        var colors = ["red", "orange", "yellow", "green", "blue", "purple"];
+        var color = 0;
+        for (var c = 0; c < instr.length; c++) {
+          if (instr[c].trim() == instr[c]) {
+            outstr += '<span class="' + colors[color % 6] + '">' + instr[c] + '</span>';
+            color++;
+          } else {
+            outstr += instr[c];
+          }
+        }
+        document.getElementById("rainbow").innerHTML = outstr;
+      };
+    </script>
+  </body>
+</html>

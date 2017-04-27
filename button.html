@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <title>Big Red Button</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style>
+      #button {
+        width: 500px;
+        height: 150px;
+        background: red;
+        font-size: 50px;
+        border-radius: 25px;
+        margin-left: 400px;
+      }
+      #buttontext {
+        margin-left: 75px;
+      }
+      #buttongap {
+        height: 50px;
+      }
+      #buttonmargin {
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="buttonmargin"></div>
+    <div id="button">
+      <div id="buttongap"></div>
+      <span id="buttontext">DO NOT PRESS</span>
+    </div>
+    <img id="earth" src="" />
+    <script>
+      $(document).ready(function() {
+        $('#button').show();
+        $('#earth').hide();
+      });
+      $('#button').click(function() {
+        $('#button').hide();
+        $('#buttonmargin').hide();
+        $('img').show().each(function() {this.offsetHeight;}).prop('src', 'http://orig12.deviantart.net/6161/f/2010/283/a/e/earth_explosion_by_akro227-d30hryi.gif');
+      });
+    </script>
+  </body>
+</html>
