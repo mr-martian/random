@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <title>For Date Typos</title>
+  </head>
+  <body>
+    <select id="week" onchange="update();">
+      <option value="0">Sunday</option>
+      <option value="1">Monday</option>
+      <option value="2">Tuesday</option>
+      <option value="3">Wednesday</option>
+      <option value="4">Thrusday</option>
+      <option value="5">Friday</option>
+      <option value="6">Saturday</option>
+    </select>
+    <select id="month" onchange="update();">
+      <option value="0">January</option>
+      <option value="1">February</option>
+      <option value="2">March</option>
+      <option value="3">April</option>
+      <option value="4">May</option>
+      <option value="5">June</option>
+      <option value="6">July</option>
+      <option value="7">August</option>
+      <option value="8">September</option>
+      <option value="9">October</option>
+      <option value="10">Novemver</option>
+      <option value="11">December</option>
+    </select>
+    <input type="number" min="1" max="31" id="day" onchange="update();">
+    <br>
+    <h1 id="out"></h1>
+    <script>
+      var week = document.getElementById('week');
+      var month = document.getElementById('month');
+      var day = document.getElementById('day');
+      var out = document.getElementById('out');
+      var incyr = function(dt) {
+        dt.setFullYear(dt.getFullYear()+1);
+      };
+      var update = function() {
+        var now = new Date();
+        var then = new Date(now.getFullYear(), month.value, day.value);
+        if ((now.getMonth() > then.getMonth()) || ((now.getMonth() == then.getMonth()) && (now.getDate() > then.getDate()))) {
+          incyr(then);
+        }
+        while (then.getDay() != week.value) {
+          incyr(then);
+        }
+        out.innerText = "Event scheduled for "+then.toDateString();
+      };
+    </script>
+  </body>
+</html>
