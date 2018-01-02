@@ -18,7 +18,7 @@
         var x;
         for (var i = Math.min(chrs.length, n.length); i >= 0; i--) {
           x = parseInt(n[n.length-1-i]);
-          if (x >= 5) {
+          if (x > 5) {
             s += chrs[i][5];
             x -= 5
           }
