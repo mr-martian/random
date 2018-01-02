@@ -3,12 +3,15 @@
     <meta charset="UTF-8"></meta>
     <title>Arabic-to-Improved-Roman Numeral Converter</title>
     <script type="text/javascript" src="romnum.js"></script>
+    <style>
+      #out { font-size: 40pt; }
+    </style>
   </head>
   <body>
-    <input type="number" id="in" onchange="convert();"></input>
+    <input type="text" id="in" onchange="convert();"></input>
     <br>
     <br>
-    <h3 id="out"></h3>
+    <p id="out"></p>
     <script type="text/javascript">
       var elin = document.getElementById('in');
       var elout = document.getElementById('out');
