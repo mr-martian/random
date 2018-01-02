@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <meta charset="UTF-8"></meta>
+    <title>Arabic-to-Improved-Roman Numeral Converter</title>
+    <script type="text/javascript" src="romnum.js"></script>
+  </head>
+  <body>
+    <input type="number" id="in" onchange="convert();"></input>
+    <br>
+    <br>
+    <h3 id="out"></h3>
+    <script type="text/javascript">
+      var elin = document.getElementById('in');
+      var elout = document.getElementById('out');
+      var convert = function() {
+        var n = elin.value;
+        var s = "";
+        var x;
+        for (var i = Math.min(chrs.length, n.length); i >= 0; i--) {
+          x = parseInt(n[n.length-1-i]);
+          if (x > 5) {
+            s += chrs[i][5];
+            x -= 5
+          }
+          while (x >= 2) {
+            x -= 2;
+            s += chrs[i][2];
+          }
+          while (x > 0) {
+            x--;
+            s += chrs[i][1];
+          }
+        }
+        elout.innerHTML = s;
+      };
+    </script>
+  </body>
+</html>
