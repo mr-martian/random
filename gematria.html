@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <title>English Gematria</title>
+  </head>
+  <body>
+    <input type="text" id="in"/>
+    <p id="out"/>
+    <script>
+var values = {a:1,b:2,c:3,d:4,e:5,f:6,g:7,h:8,i:9,j:10,k:20,l:30,m:40,n:50,o:60,p:70,q:80,r:90,s:100,t:200,u:300,v:400,w:500,x:600,y:700,z:800};
+var txt2g = function(s) {
+  var n = 0;
+  for(var i = 0; i < s.length; i++) {
+    var c = s[i].toLowerCase();
+    if(values.hasOwnProperty(c)) {
+      n += values[c];
+    }
+  }
+  return n;
+};
+var g2txt = function(n) {
+  alpha = "zyxwvutsrqponmlkjihgfedcba";
+  var s = "";
+  var i = 0;
+  var k = n;
+  while(i < 26 && k > 0) {
+    if(values[alpha[i]] <= k) {
+      k -= values[alpha[i]];
+      s = s + alpha[i].toUpperCase();
+    } else {
+      i++;
+    }
+  }
+  return s;
+};
+document.getElementById("in").onkeyup = function(e) {
+  var n = txt2g(document.getElementById("in").value);
+  var s = g2txt(n);
+  document.getElementById("out").innerHTML = "" + n + " (" + s + ")";
+};
+    </script>
+  </body>
+</html>
