@@ -1,0 +1,112 @@
+<html>
+  <head>
+    <title>Alignment visualizer</title>
+  </head>
+  <body>
+    <span>Sentence 1</span>
+    <input type="text" id="sl" onchange="update();"/>
+    <br/>
+    <span>Sentence 2</span>
+    <input type="text" id="tl" onchange="update();"/>
+    <br/>
+    <span>Alignment</span>
+    <input type="text" id="align" onchange="update();"/>
+    <br/>
+    <svg id="viz"></svg>
+    <script>
+var sl_words = [];
+var tl_words = [];
+var align = [];
+var sl_selected = -1;
+var tl_selected = -1;
+var tokenize = function(s) {
+    var ls = [];
+    var last = 0;
+    for (var i = 0; i < s.length; i++) {
+	if (s[i] == "^") {
+	    last = i;
+	} else if (s[i] == "$") {
+	    ls.push(s.slice(last, i+1))
+	}
+    }
+    return ls;
+};
+var update = function() {
+    sl_words = tokenize(document.getElementById("sl").value);
+    tl_words = tokenize(document.getElementById("tl").value);
+    var alg = document.getElementById("align").value.split(/\s/);
+    align = [];
+    for (var i = 0; i < alg.length; i++) {
+	var ls = alg[i].split("-");
+	if (ls.length == 2) {
+	    align.push([parseInt(ls[0]), parseInt(ls[1])]);
+	}
+    }
+    display();
+};
+var write_word = function(w, i, sl) {
+    var s = '<g onclick="clickword(' + i + ', ' + sl + ');">';
+    s += '<text x="0" y="' + (sl ? 20 : 40) + '">' + w.replace('<', '&lt;').replace('>', '&gt;') + '</text>';
+    s += '<text x="0" y="' + (sl ? 40 : 20) + '">' + i + '</text>';
+    s += '</g>';
+    return s;
+};
+var display = function() {
+    sl_selected = -1;
+    tl_selected = -1;
+    var svg = document.getElementById("viz");
+    svg.innerHTML = "";
+    var sl_g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    svg.appendChild(sl_g);
+    var sl_coords = [10];
+    for (var i = 0; i < sl_words.length; i++) {
+	sl_g.innerHTML += write_word(sl_words[i], i, true);
+	sl_g.lastChild.setAttribute('transform', 'translate(' + sl_coords[sl_coords.length - 1] + ', 0)');
+	var b = sl_g.getBBox();
+	sl_coords.push(b.width + 20);
+    }
+    var tl_g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    svg.appendChild(tl_g);
+    var tl_coords = [10];
+    for (var i = 0; i < tl_words.length; i++) {
+	tl_g.innerHTML += write_word(tl_words[i], i, false);
+	tl_g.lastChild.setAttribute('transform', 'translate(' + tl_coords[tl_coords.length - 1] + ', 100)');
+	var b = tl_g.getBBox();
+	tl_coords.push(b.width + 20);
+    }
+    svg.setAttribute("width", Math.max(sl_coords[sl_coords.length-1], tl_coords[tl_coords.length-1]) + 10);
+    for (var i = 0; i < align.length; i++) {
+	var s = sl_coords[align[i][0]];
+	var t = tl_coords[align[i][1]];
+	svg.innerHTML += '<line x1="' + s + '" y1="45" x2="' + t + '" y2="100" stroke="black" stroke-width="5" onclick="del_line(' + i + ');"/>';
+    }
+};
+var update_align = function() {
+    var s = '';
+    for (var i = 0; i < align.length; i++) {
+	s += align[i][0] + '-' + align[i][1] + ' ';
+    }
+    document.getElementById("align").value = s;
+}
+var del_line = function(i) {
+    align.splice(i, 1);
+    update_align();
+    display();
+}
+var clickword = function(i, sl) {
+    if (sl) {
+	sl_selected = i;
+    } else {
+	tl_selected = i;
+    }
+    if (sl_selected != -1 && tl_selected != -1) {
+	align.push([sl_selected, tl_selected]);
+	sl_selected = -1;
+	tl_selected = -1;
+	update_align();
+	display();
+    }
+};
+    </script>
+  </body>
+</html>
