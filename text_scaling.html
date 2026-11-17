@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <title>Text Scaling</title>
+    <style>
+      span {
+	  display: inline-block;
+	  font-family: monospace;
+	  width: max-content;
+      }
+    </style>
+  </head>
+  <body>
+    <label>
+      Word width:
+      <input type="range" min="20" max="500" value="100" id="width"
+	     onchange="showtext()"></input>
+    </label>
+    <br/>
+    <label>Enter some text:
+      <br/>
+      <textarea id="input" onkeyup="showtext()"></textarea>
+    </label>
+    <br/>
+    <output id="output"></output>
+    <script type="text/javascript">
+      function esc(x) {
+	  return x
+	      .replaceAll('&', '&amp;')
+	      .replaceAll('<', '&lt;')
+	      .replaceAll('>', '&gt;')
+	      .replaceAll('"', '&quot;')
+	      .replaceAll("'", '&#039;');
+      }
+      function span(x) {
+	  return `<span><span class="scale">${esc(x)}</span></span>`;
+      }
+      function showtext() {
+	  const data = document.getElementById('input').value;
+	  document.getElementById('output').innerHTML = data
+	      .split('\n')
+	      .map((line) => line.split(/\s+/).map(span).join(' '))
+	      .join('<br/>');
+	  const mx = parseInt(document.getElementById('width').value);
+	  Array.from(document.querySelectorAll('span.scale')).forEach((sp) => {
+	      let w = sp.getBoundingClientRect().width;
+	      sp.style.transform = `translate(-50%, 0) scale(${mx / w}, 1) translate(50%, 0)`;
+	      sp.parentNode.style.width = `${mx}px`;
+	  });
+      }
+    </script>
+  </body>
+</html>

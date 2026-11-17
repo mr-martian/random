@@ -7,3 +7,4 @@ assorted small tools of no great importance or relatedness
 - [rainbow.html](rainbow.html) For when you need rainbow text in your essays
 - [wordgame.html](wordgame.html) For when people beat you at word-ladder games
 - [romnum.html](romnum.html) For when you're too lazy to convert to SpecGram updated Roman Numerals by hand
+- [text_scaling.html](text_scaling.html) For properly aligning text
